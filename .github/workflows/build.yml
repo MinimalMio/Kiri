@@ -54,10 +54,9 @@ jobs:
           ./gradlew assembleRelease
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: android-build
           path: |
             android/app/build/outputs/apk/${{ env.ANDROID_BUILD_TYPE }}/app-${{ env.ANDROID_BUILD_TYPE }}.apk
-            android/app/build/outputs/bundle/${{ env.ANDROID_BUILD_TYPE }}/app.aab
           if-no-files-found: error
