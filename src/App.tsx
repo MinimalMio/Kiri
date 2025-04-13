@@ -1,27 +1,47 @@
 import React from 'react';
-import type {PropsWithChildren} from 'react';
 import {
-  ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   TextInput,
   Button,
-  Image,
-  useColorScheme,
   View,
 } from 'react-native';
+// import {
+//   Button,
+// } from '@react-navigation/elements'
+import {
+  createStaticNavigation,
+  useNavigation,
+} from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import Login2rd from './pages/Login2rd';
 
+const LoginScreen = () => {
+  const navi = useNavigation();
 
-const App = () => {
   return (
     <View>
-      <Text style={styles.title}>Welcome</Text>
       <TextInput placeholder='Input home server address here.' style={styles.input}/>
-      <Button title='Login'/>
+      <Button onPress={() => navi.navigate('Login2rdScreen')} title='Login'/>
+      <Button title='Register'/>
     </View>
   );
 }
+
+const rootStack = createNativeStackNavigator({
+  initialRouteName: 'Login',
+  screens: {
+    Login: {
+      screen: LoginScreen,
+      options: {
+        title: 'Welcome to Kiri'
+      },
+    },
+    Login2rdScreen: Login2rd,
+  }
+});
+
+const Navigation = createStaticNavigation(rootStack);
 
 const styles = StyleSheet.create({
   title: {
@@ -37,4 +57,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default function App() {
+  return <Navigation />
+};
