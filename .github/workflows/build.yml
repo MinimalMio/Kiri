@@ -1,0 +1,63 @@
+name: Android Build
+
+on:
+  push:
+    branches: [ main ]
+
+env:
+  ANDROID_BUILD_TYPE: release
+
+jobs:
+  build:
+    name: Build Android Package
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'temurin'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22.x
+
+      - name: Cache Node modules
+        uses: actions/cache@v3
+        id: node-cache
+        with:
+          path: |
+            node_modules
+            **/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Cache Gradle
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/gradle-wrapper.properties') }}
+
+      - name: Install dependencies
+        if: steps.node-cache.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Build Android APK
+        run: |
+          cd android
+          ./gradlew assembleRelease
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: android-build
+          path: |
+            android/app/build/outputs/apk/${{ env.ANDROID_BUILD_TYPE }}/app-${{ env.ANDROID_BUILD_TYPE }}.apk
+            android/app/build/outputs/bundle/${{ env.ANDROID_BUILD_TYPE }}/app.aab
+          if-no-files-found: error

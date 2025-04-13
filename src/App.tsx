@@ -1,10 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react';
 import type {PropsWithChildren} from 'react';
 import {
@@ -13,28 +6,35 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  Button,
   Image,
   useColorScheme,
   View,
 } from 'react-native';
 
-const Cat = () => {
-  return(
-    <View>
-      <Text>I'm a Cat!</Text>
-    </View>
-  );
-}
 
 const App = () => {
   return (
     <View>
-      <Text>Hello~</Text>
-      <Cat />
-      <Cat />
-      <Cat />
+      <Text style={styles.title}>Welcome</Text>
+      <TextInput placeholder='Input home server address here.' style={styles.input}/>
+      <Button title='Login'/>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  title: {
+    fontSize: 24,
+    textAlign: 'center',
+  },
+  input: {
+    margin: 5,
+    borderColor: 'blue',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderRadius: 1,
+  },
+});
 
 export default App;
