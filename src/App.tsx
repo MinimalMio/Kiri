@@ -14,11 +14,14 @@ import {
   useNavigation
 } from '@react-navigation/native'
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack'
-import Login2nd from './pages/Login2nd';
+
+import Login2ndScreen from './pages/Login2nd';
+import RegisterScreen from './pages/Register';
 
 type RootStackParamList = {
-  Login: undefined,
-  Login2nd: undefined,
+  LoginScreen: undefined,
+  Login2ndScreen: undefined,
+  RegisterScreen: undefined,
 }
 
 const LoginScreen = () => {
@@ -27,7 +30,7 @@ const LoginScreen = () => {
   return (
     <View>
       <TextInput placeholder='Input home server address here.' style={styles.input}/>
-      <Button onPress={() => navi.navigate('Login2nd')} title='Login'/>
+      <Button onPress={() => navi.navigate('Login2ndScreen')} title='Login'/>
       <Button title='Register'/>
     </View>
   );
@@ -37,28 +40,33 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootStack () {
   return(
-    <Stack.Navigator initialRouteName='Login'>
+    <Stack.Navigator initialRouteName='LoginScreen'>
       <Stack.Screen 
-        name="Login"
+        name="LoginScreen"
         component={LoginScreen}
         options={{
           title: 'Welcome',
-        }} />
+        }} 
+      />
       <Stack.Screen 
-        name="Login2nd"
-        component={Login2nd}
+        name="Login2ndScreen"
+        component={Login2ndScreen}
         options={{
           title: 'Login',
-        }} />
+        }}
+      />
+      <Stack.Screen 
+        name="RegisterScreen"
+        component={RegisterScreen}
+        options={{
+          title: 'Register',
+        }}
+      />
     </Stack.Navigator>
   );
 }
 
 const styles = StyleSheet.create({
-  title: {
-    fontSize: 24,
-    textAlign: 'center',
-  },
   input: {
     margin: 5,
     borderColor: 'blue',
