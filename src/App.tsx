@@ -10,38 +10,49 @@ import {
 //   Button,
 // } from '@react-navigation/elements'
 import {
-  createStaticNavigation,
-  useNavigation,
+  NavigationContainer,
+  useNavigation
 } from '@react-navigation/native'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import Login2rd from './pages/Login2rd';
+import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack'
+import Login2nd from './pages/Login2nd';
+
+type RootStackParamList = {
+  Login: undefined,
+  Login2nd: undefined,
+}
 
 const LoginScreen = () => {
-  const navi = useNavigation();
+  const navi = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   return (
     <View>
       <TextInput placeholder='Input home server address here.' style={styles.input}/>
-      <Button onPress={() => navi.navigate('Login2rdScreen')} title='Login'/>
+      <Button onPress={() => navi.navigate('Login2nd')} title='Login'/>
       <Button title='Register'/>
     </View>
   );
 }
 
-const rootStack = createNativeStackNavigator({
-  initialRouteName: 'Login',
-  screens: {
-    Login: {
-      screen: LoginScreen,
-      options: {
-        title: 'Welcome to Kiri'
-      },
-    },
-    Login2rdScreen: Login2rd,
-  }
-});
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
-const Navigation = createStaticNavigation(rootStack);
+function RootStack () {
+  return(
+    <Stack.Navigator initialRouteName='Login'>
+      <Stack.Screen 
+        name="Login"
+        component={LoginScreen}
+        options={{
+          title: 'Welcome',
+        }} />
+      <Stack.Screen 
+        name="Login2nd"
+        component={Login2nd}
+        options={{
+          title: 'Login',
+        }} />
+    </Stack.Navigator>
+  );
+}
 
 const styles = StyleSheet.create({
   title: {
@@ -58,5 +69,9 @@ const styles = StyleSheet.create({
 });
 
 export default function App() {
-  return <Navigation />
+  return (
+    <NavigationContainer>
+      <RootStack />
+    </NavigationContainer>
+  );
 };

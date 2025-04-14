@@ -6,7 +6,7 @@ import {
     StyleSheet,
 } from 'react-native'
 
-const Login2rd = () => {
+const Login2nd = () => {
     return (
         <View>
             <TextInput style={styles.input} placeholder='Username'/>
@@ -25,4 +25,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Login2rd;
+export default Login2nd;
