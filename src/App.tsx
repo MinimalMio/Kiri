@@ -1,10 +1,11 @@
 import React from 'react';
+import { useState } from 'react';
 import {
   StyleSheet,
   Text,
   TextInput,
   Button,
-  View,
+  View
 } from 'react-native';
 // import {
 //   Button,
@@ -18,20 +19,31 @@ import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-na
 import Login2ndScreen from './pages/Login2nd';
 import RegisterScreen from './pages/Register';
 
-type RootStackParamList = {
+export type RootStackParamList = {
   LoginScreen: undefined,
-  Login2ndScreen: undefined,
-  RegisterScreen: undefined,
+  Login2ndScreen: { homeServer: string },
+  RegisterScreen: { homeServer: string},
 }
 
 const LoginScreen = () => {
   const navi = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const [homeServerAddr, setHomeServerAddr] = useState('');
 
   return (
     <View>
-      <TextInput placeholder='Input home server address here.' style={styles.input}/>
-      <Button onPress={() => navi.navigate('Login2ndScreen')} title='Login'/>
-      <Button title='Register'/>
+      <TextInput
+        placeholder='Input home server address here.'
+        style={styles.input}
+        onChangeText={setHomeServerAddr}
+      />
+      <Button
+        onPress={() => navi.navigate('Login2ndScreen', { homeServer: homeServerAddr })}
+        title='Login'
+      />
+      <Button
+        onPress={() => navi.navigate('RegisterScreen', { homeServer: homeServerAddr })}
+        title='Register'
+      />
     </View>
   );
 }
